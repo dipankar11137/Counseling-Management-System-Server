@@ -32,24 +32,24 @@ async function run() {
 
     // create and update User
     //create and update a user
-    // app.put("/create-user/:email", async (req, res) => {
-    //   const email = req.params.email;
-    //   const user = req.body;
+    app.put("/create-user/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
 
-    //   const filter = { email: email };
-    //   const options = { upsert: true };
+      const filter = { email: email };
+      const options = { upsert: true };
 
-    //   const updatedDoc = {
-    //     $set: user,
-    //   };
+      const updatedDoc = {
+        $set: user,
+      };
 
-    //   const result = await userCollection.updateOne(
-    //     filter,
-    //     updatedDoc,
-    //     options
-    //   );
-    //   res.send(result);
-    // });
+      const result = await userCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+    });
     //get all users from db
     // app.get("/users", async (req, res) => {
     //   const query = {};
