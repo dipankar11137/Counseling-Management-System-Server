@@ -61,13 +61,13 @@ async function run() {
     });
 
     // // all User filter by email category
-    // app.get("/user/:email", async (req, res) => {
-    //   const email = req.params.email;
-    //   const query = { email };
-    //   const cursor = userCollection.find(query);
-    //   const user = await cursor.toArray();
-    //   res.send(user);
-    // });
+    app.get("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = userCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
 
     // //  *********  Complain  ********//
 
