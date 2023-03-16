@@ -25,6 +25,9 @@ async function run() {
     // console.log("database connect");
 
     const userCollection = client.db("counselingManagement").collection("user");
+    const appointmentCollection = client
+      .db("counselingManagement")
+      .collection("appointments");
 
     // // // // // // // // // // // //
 
@@ -67,6 +70,17 @@ async function run() {
       const cursor = userCollection.find(query);
       const user = await cursor.toArray();
       res.send(user);
+    });
+
+    // //  *********  appointments  ********//
+
+    // // get appointments
+
+    app.get("/appointments", async (req, res) => {
+      const query = {};
+      const cursor = appointmentCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
     });
 
     // //  *********  Complain  ********//
