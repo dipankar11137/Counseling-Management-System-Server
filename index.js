@@ -28,6 +28,9 @@ async function run() {
     const appointmentCollection = client
       .db("counselingManagement")
       .collection("appointments");
+    const bookingCollection = client
+      .db("counselingManagement")
+      .collection("bookings");
 
     // // // // // // // // // // // //
 
@@ -74,11 +77,44 @@ async function run() {
 
     // //  *********  appointments  ********//
 
-    // // get appointments
+    // // get appointments to query multiple collection  and them marge data
 
     app.get("/appointments", async (req, res) => {
+      const date = req.query.date;
+      console.log(date);
       const query = {};
-      const cursor = appointmentCollection.find(query);
+      const options = await appointmentCollection.find(query).toArray();
+      const bookingQuery = { appointmentDate: date };
+      const alreadyBooked = await bookingCollection
+        .find(bookingQuery)
+        .toArray();
+      //
+      options.forEach((option) => {
+        const optionBooked = alreadyBooked.filter(
+          (book) => book.teacherName === option.name
+        );
+        console.log(option);
+        const bookedSlots = optionBooked.map((book) => book.slot);
+        const remainingSlots = option.slots.filter(
+          (slot) => !bookedSlots.includes(slot)
+        );
+        option.slots = remainingSlots;
+        // console.log(remainingSlots);
+      });
+      // const result = await cursor.toArray();
+      res.send(options);
+    });
+
+    // post Bookings
+    app.post("/bookings", async (req, res) => {
+      const newBooking = req.body;
+      const result = await bookingCollection.insertOne(newBooking);
+      res.send(result);
+    });
+    // get Bookings
+    app.get("/bookings", async (req, res) => {
+      const query = {};
+      const cursor = bookingCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
