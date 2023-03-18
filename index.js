@@ -105,6 +105,13 @@ async function run() {
       res.send(options);
     });
 
+    // Post appointments
+    app.post("/appointments", async (req, res) => {
+      const newBooking = req.body;
+      const result = await appointmentCollection.insertOne(newBooking);
+      res.send(result);
+    });
+
     // post Bookings
     app.post("/bookings", async (req, res) => {
       const newBooking = req.body;
@@ -166,9 +173,9 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("Running City Complain ");
+  res.send("Running Counseling Management ");
 });
 
 app.listen(port, () => {
-  console.log("City Complain  server is running ");
+  console.log("Counseling Management  server is running ");
 });
