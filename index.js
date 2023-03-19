@@ -22,7 +22,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    // console.log("database connect");
 
     const userCollection = client.db("counselingManagement").collection("user");
     const appointmentCollection = client
@@ -81,7 +80,6 @@ async function run() {
 
     app.get("/appointments", async (req, res) => {
       const date = req.query.date;
-      console.log(date);
       const query = {};
       const options = await appointmentCollection.find(query).toArray();
       const bookingQuery = { appointmentDate: date };
@@ -93,37 +91,43 @@ async function run() {
         const optionBooked = alreadyBooked.filter(
           (book) => book.teacherName === option.name
         );
-        console.log(option);
         const bookedSlots = optionBooked.map((book) => book.slot);
         const remainingSlots = option.slots.filter(
           (slot) => !bookedSlots.includes(slot)
         );
         option.slots = remainingSlots;
-        // console.log(remainingSlots);
       });
-      // const result = await cursor.toArray();
       res.send(options);
     });
 
     // Post appointments
     app.post("/appointments", async (req, res) => {
-      const newBooking = req.body;
-      const result = await appointmentCollection.insertOne(newBooking);
+      const appointmentsBook = req.body;
+      const result = await appointmentCollection.insertOne(appointmentsBook);
       res.send(result);
     });
 
-    // post Bookings
+    // post Booking/complain
     app.post("/bookings", async (req, res) => {
       const newBooking = req.body;
       const result = await bookingCollection.insertOne(newBooking);
       res.send(result);
     });
-    // get Bookings
+    // get Booking/complain
     app.get("/bookings", async (req, res) => {
       const query = {};
       const cursor = bookingCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
+    });
+
+    // //  Booking/complain filter by email
+    app.get("/booking/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = bookingCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
     });
 
     // //  *********  Complain  ********//
