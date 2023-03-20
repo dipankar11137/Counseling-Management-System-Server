@@ -121,10 +121,19 @@ async function run() {
       res.send(result);
     });
 
-    // //  Booking/complain filter by email
+    // //  Booking/complain filter by Teacher email
     app.get("/booking/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
+      const cursor = bookingCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
+
+    //  Booking/complain filter by Student email
+    app.get("/studentBooking/:studentsEmail", async (req, res) => {
+      const studentsEmail = req.params.studentsEmail;
+      const query = { studentsEmail };
       const cursor = bookingCollection.find(query);
       const user = await cursor.toArray();
       res.send(user);
