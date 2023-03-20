@@ -146,47 +146,6 @@ async function run() {
       const result = await bookingCollection.deleteOne(query);
       res.send(result);
     });
-
-    // //  *********  Complain  ********//
-
-    // // get complains
-
-    // app.get("/complains", async (req, res) => {
-    //   const query = {};
-    //   const cursor = complainCollection.find(query);
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
-    // // post Complains
-    // app.post("/complains", async (req, res) => {
-    //   const newComplain = req.body;
-    //   const result = await complainCollection.insertOne(newComplain);
-    //   res.send(result);
-    // });
-    // // // Delete one complain
-    // app.delete("/complains/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: ObjectId(id) };
-    //   const result = await complainCollection.deleteOne(query);
-    //   res.send(result);
-    // });
-
-    // //  Complain filter by email
-    // app.get("/complains/:email", async (req, res) => {
-    //   const email = req.params.email;
-    //   const query = { email };
-    //   const cursor = complainCollection.find(query);
-    //   const user = await cursor.toArray();
-    //   res.send(user);
-    // });
-    // //  Complain filter by Division
-    // app.get("/complain/:division", async (req, res) => {
-    //   const division = req.params.division;
-    //   const query = { division };
-    //   const cursor = complainCollection.find(query);
-    //   const user = await cursor.toArray();
-    //   res.send(user);
-    // });
   } finally {
   }
 }
