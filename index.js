@@ -107,13 +107,13 @@ async function run() {
       res.send(result);
     });
 
-    // post Booking/complain
+    // post Booking/counseling
     app.post("/bookings", async (req, res) => {
       const newBooking = req.body;
       const result = await bookingCollection.insertOne(newBooking);
       res.send(result);
     });
-    // get Booking/complain
+    // get Booking/counseling
     app.get("/bookings", async (req, res) => {
       const query = {};
       const cursor = bookingCollection.find(query);
@@ -121,7 +121,7 @@ async function run() {
       res.send(result);
     });
 
-    // //  Booking/complain filter by Teacher email
+    // //  Booking/counseling filter by Teacher email
     app.get("/booking/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
@@ -130,13 +130,21 @@ async function run() {
       res.send(user);
     });
 
-    //  Booking/complain filter by Student email
+    //  Booking/counseling filter by Student email
     app.get("/studentBooking/:studentsEmail", async (req, res) => {
       const studentsEmail = req.params.studentsEmail;
       const query = { studentsEmail };
       const cursor = bookingCollection.find(query);
       const user = await cursor.toArray();
       res.send(user);
+    });
+
+    // // Delete one Booking counseling
+    app.delete("/bookings/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
+      res.send(result);
     });
 
     // //  *********  Complain  ********//
