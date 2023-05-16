@@ -122,6 +122,13 @@ async function run() {
     });
 
     // //  Booking/counseling filter by Teacher email
+    app.get("/bookings/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = bookingCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
     app.get("/booking/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email };
