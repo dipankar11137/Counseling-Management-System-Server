@@ -145,6 +145,13 @@ async function run() {
       const user = await cursor.toArray();
       res.send(user);
     });
+    app.get("/studentBookings/:studentsEmail", async (req, res) => {
+      const studentsEmail = req.params.studentsEmail;
+      const query = { studentsEmail };
+      const cursor = bookingCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
 
     // // Delete one Booking counseling
     app.delete("/bookings/:id", async (req, res) => {
