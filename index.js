@@ -179,6 +179,14 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // Notices Filter by email
+    app.get('/notice/:email', async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = noticeCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
   } finally {
   }
 }
