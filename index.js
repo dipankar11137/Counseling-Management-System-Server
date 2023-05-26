@@ -187,6 +187,13 @@ async function run() {
       const user = await cursor.toArray();
       res.send(user);
     });
+    // // Delete one Notice
+    app.delete('/notices/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await noticeCollection.deleteOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
