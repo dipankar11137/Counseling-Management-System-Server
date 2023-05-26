@@ -30,6 +30,9 @@ async function run() {
     const bookingCollection = client
       .db("counselingManagement")
       .collection("bookings");
+    const noticeCollection = client
+      .db("counselingManagement")
+      .collection("notice");
 
     // // // // // // // // // // // //
 
@@ -160,6 +163,14 @@ async function run() {
       const result = await bookingCollection.deleteOne(query);
       res.send(result);
     });
+
+    //                    Notice              //
+// Post Notice
+  app.post('/notices', async (req, res) => {
+    const postResult = req.body;
+    const result = await noticeCollection.insertOne(postResult);
+    res.send(result);
+  });
   } finally {
   }
 }
